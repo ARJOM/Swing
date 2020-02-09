@@ -59,15 +59,14 @@ public class TelaCadastroUsuario extends JFrame {
                         .ofPattern(dateFormat)
                         .withResolverStyle(ResolverStyle.STRICT);
 
+                boolean ehValida = true;
+
                 LocalDate nascimento = null;
 
                 try {
                    nascimento = LocalDate.parse(campoNascimento.getText(), dateTimeFormatter);
                 } catch (DateTimeParseException ex) {
-                    JOptionPane.showMessageDialog(this,
-                            "Data informada é inválida",
-                            "Mensagem de erro",
-                            JOptionPane.ERROR_MESSAGE);
+                    ehValida = false;
                 }
 
                 String senha = new String(campoSenha1.getPassword());
@@ -84,8 +83,11 @@ public class TelaCadastroUsuario extends JFrame {
                             "Você não pode registrar datas futuras como nascimento",
                             "Mensagem de erro",
                             JOptionPane.ERROR_MESSAGE);
-//                } else if () {
-
+                } else if (!ehValida) {
+                    JOptionPane.showMessageDialog(this,
+                            "Data informada é inválida",
+                            "Mensagem de erro",
+                            JOptionPane.ERROR_MESSAGE);
                 } else {
 
                     Usuario usuario = new Usuario(email, nome, nascimento, senha);
