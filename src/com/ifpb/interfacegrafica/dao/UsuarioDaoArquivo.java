@@ -51,14 +51,20 @@ public class UsuarioDaoArquivo {
     public boolean remover(String email) throws IOException, ClassNotFoundException {
         Usuario usuario = buscarPorEmail(email);
         Set<Usuario> usuarios = getUsuarios();
-        usuarios.remove(usuario);
-        atualizarArquivo(usuarios);
-        return true;
+        if(usuarios.remove(usuario)){
+            return atualizarArquivo(usuarios);
+        }
+        return false;
     }
 
     public boolean atualizar(Usuario novoUsuario) throws IOException, ClassNotFoundException {
+        Usuario usuarioAtual = buscarPorEmail(novoUsuario.getEmail());
         if (remover(novoUsuario.getEmail())){
-            return salvar(novoUsuario);
+            if (salvar(novoUsuario)){
+                return true;
+            } else{
+                salvar(usuarioAtual);
+            }
         }
         return false;
     }
