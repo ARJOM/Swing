@@ -48,5 +48,19 @@ public class UsuarioDaoArquivo {
     }
 
     //TODO Criar método de atualizar e remover
+    public boolean remover(String email) throws IOException, ClassNotFoundException {
+        Usuario usuario = buscarPorEmail(email);
+        Set<Usuario> usuarios = getUsuarios();
+        usuarios.remove(usuario);
+        atualizarArquivo(usuarios);
+        return true;
+    }
+
+    public boolean atualizar(Usuario novoUsuario) throws IOException, ClassNotFoundException {
+        if (remover(novoUsuario.getEmail())){
+            return salvar(novoUsuario);
+        }
+        return false;
+    }
 
 }
